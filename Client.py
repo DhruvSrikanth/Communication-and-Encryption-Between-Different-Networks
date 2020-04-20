@@ -2,8 +2,20 @@ import socket
 from Crypto import Crypto
 from sys import exit
 
+# global message
+# global key
+
 crypto = Crypto()
 print("Socket programming with Encryption and decryption")
+
+# def check_for_digit(text):
+#   # for letter in text:
+#   #   if letter.isdigit():
+#   #     # print("Cannot contain digits")
+#   #     return True
+#   #   else:
+#   #     return False
+#   return any(char.isdigit() for char in text)
 
 def get_input_message(*choice):
 
@@ -22,13 +34,13 @@ def get_input_message(*choice):
     choice = int(input("Enter your choice (num): "))
     if choice in (1,2,3,4,5,6):
       if choice == 6:
-        quit()
+        exit("Terminating")
       else:
         pass
     else:
       print("Invalid Choice")
       get_input_message()
-  except:
+  except ValueError:
     print("Invalid Choice")
     get_input_message()
 
@@ -41,18 +53,20 @@ def get_input_message(*choice):
       for word in data:
         cipher_text += crypto.caesar_cipher(word,key) + " "
       message = "c1" + "_" + cipher_text + "_" + str(key)
-    except:
+    except ValueError:
       print("Key Value Must Be An Integer")
       get_input_message()
+
   elif choice == 2:
     try:
       key = int(input("Enter key value: "))
       for word in data:
         cipher_text += crypto.decimation_cipher(word,key) + " "
       message = "c2" + "_" + cipher_text + "_" + str(key)
-    except:
+    except ValueError:
       print("Key Value Must Be An Integer")
       get_input_message()
+
   elif choice == 3:
     try:
       a = int(input("Enter \"a\" value: "))
@@ -60,9 +74,10 @@ def get_input_message(*choice):
       for word in data:
         cipher_text += crypto.linear_cipher(word,a,b) + " "
       message = "c3" + "_" + cipher_text + "_" + str(a) + "_" + str(b)
-    except:
+    except ValueError:
       print("\"a\" And \"b\" Must Be Integers")
       get_input_message()
+
   elif choice == 4:
     try:
       for word in data:
@@ -70,13 +85,20 @@ def get_input_message(*choice):
       message = "c4" + "_" + cipher_text
     except:
       get_input_message()
+
   elif choice == 5:
     try:
       keyword = input("Enter the keyword: ")
+    # digit = check_for_digit(keyword)
+    # print(digit)
+    # if digit==0:
       for word in data:
         cipher_text += crypto.keyword_cipher(keyword,word) + " "
       message = "c5" + "_" + cipher_text + "_" + keyword
-    except:
+    # elif digit==1:
+      # print("Keyword cannot contain digits")
+      # get_input_message()
+    except ValueError:
       get_input_message()
 
 def Main():
